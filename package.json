@@ -1,0 +1,8 @@
+{
+  "name": "BuenosAiresBack",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/MnTic3/BuenosAiresBack.git",
+  "author": "sanmon12",
+  "license": "MIT"
+}
