@@ -5,6 +5,7 @@
   "repository": "https://github.com/MnTic3/BuenosAiresBack.git",
   "author": "sanmon12",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "express": "^4.18.0"
   }
