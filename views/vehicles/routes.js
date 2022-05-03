@@ -1,40 +1,33 @@
 import express from 'express'
+import { createOneVehicle, getAllVehicles } from '../../controllers/vehicles/controller.js';
 import { getDataBase } from '../../db/db.js';
+
 
 const vehicleRoutes = express.Router();
 
+const genericCallBack = (res) => (err, result) => {
+    if (err) {
+        res.sendStatus(500)
+    }else {
+        res.json(result)
+    }
+}
+
 vehicleRoutes.route("/vehicles").get((req, res) => {
     console.log("Están intentando ingresar a /vehicles");
-    const dataBase = getDataBase();
-    dataBase.collection('vehicle').find({}).toArray((err, result) => {
+    const responseGetAll = (err, result) => {
         if (err) {
             console.error(err);
             res.status(500).send("Error")
         } else {
             res.json(result)
         }
-    })
+    }
+    getAllVehicles(responseGetAll)
 })
 
 vehicleRoutes.route("/vehicle/create").post((req, res) => {
-    const vehicle = req.body;
-    if (Object.keys(vehicle).includes("vehName") &&
-        Object.keys(vehicle).includes("vehBrand") &&
-        Object.keys(vehicle).includes("vehModel")
-    ) {
-        const dataBase = getDataBase();
-        dataBase.collection('vehicle').insertOne(vehicle, (err, result) => {
-            if (err) {
-                console.error(err);
-                res.sendStatus(500)
-            } else {
-                console.log(result);
-                res.sendStatus(200)
-            }
-        })
-    } else {
-        res.sendStatus(500)
-    }
+    createOneVehicle(req.body,genericCallBack(res) )
 })
 
 vehicleRoutes.route("/vehicle/edit").patch((req, res) => {
