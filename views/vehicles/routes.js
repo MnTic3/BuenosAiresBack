@@ -1,5 +1,5 @@
 import express from 'express'
-import { createOneVehicle, getAllVehicles } from '../../controllers/vehicles/controller.js';
+import { createOneVehicle, editOneVehicle, getAllVehicles } from '../../controllers/vehicles/controller.js';
 import { getDataBase } from '../../db/db.js';
 
 
@@ -14,7 +14,6 @@ const genericCallBack = (res) => (err, result) => {
 }
 
 vehicleRoutes.route("/vehicles").get((req, res) => {
-    console.log("Están intentando ingresar a /vehicles");
     const responseGetAll = (err, result) => {
         if (err) {
             console.error(err);
@@ -27,32 +26,11 @@ vehicleRoutes.route("/vehicles").get((req, res) => {
 })
 
 vehicleRoutes.route("/vehicle/create").post((req, res) => {
-    createOneVehicle(req.body,genericCallBack(res) )
+    createOneVehicle(req.body,genericCallBack(res))
 })
 
 vehicleRoutes.route("/vehicle/edit").patch((req, res) => {
-    const dataToEdit = req.body;
-    console.log(dataToEdit);
-    const selectedVehicle = { _id: new ObjectId(dataToEdit.id) }
-    delete dataToEdit.id
-    const operation = {
-        $set: dataToEdit,
-    }
-    const dataBase = getDataBase();
-    dataBase.collection('vehicle')
-        .findOneAndUpdate(
-            selectedVehicle,
-            operation,
-            { upsert: true, returnOriginal: true },
-            (err, result) => {
-                if (err) {
-                    console.error("Error trying to update vehicle", err);
-                    res.sendStatus(500)
-                } else {
-                    console.log("Successful update");
-                    res.sendStatus(200)
-                }
-            })
+    editOneVehicle(req.body, genericCallBack(res))
 })
 
 vehicleRoutes.route("/vehicle/delete").delete((req, res) => {

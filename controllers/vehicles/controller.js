@@ -1,5 +1,5 @@
 import { getDataBase } from "../../db/db.js";
-
+import { ObjectId } from 'mongodb'
 
 const getAllVehicles = async (callback) => {
     const dataBase = getDataBase();
@@ -19,4 +19,19 @@ const createOneVehicle = async (vehicleToCreate, callback) => {
     }
 }
 
-export { getAllVehicles, createOneVehicle }
+const editOneVehicle = async (dataToEdit, callback) => {
+    const selectedVehicle = { _id: new ObjectId(dataToEdit.id) }
+    delete dataToEdit.id
+    const operation = {
+        $set: dataToEdit,
+    }
+    const dataBase = getDataBase();
+    await dataBase.collection('vehicle')
+        .findOneAndUpdate(
+            selectedVehicle,
+            operation,
+            { upsert: true, returnOriginal: true },
+            callback)
+}
+
+export { getAllVehicles, createOneVehicle, editOneVehicle }
