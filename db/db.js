@@ -28,4 +28,4 @@ const getDataBase = () => {
     return dataBase;
 }
 
-export {dbConnection, getDataBase}
+export { dbConnection, getDataBase }
