@@ -19,9 +19,24 @@ const createOneVehicle = async (vehicleToCreate, callback) => {
     }
 }
 
-const editOneVehicle = async (dataToEdit, callback) => {
-    const selectedVehicle = { _id: new ObjectId(dataToEdit.id) }
-    delete dataToEdit.id
+// const editOneVehicle = async (dataToEdit, callback) => {
+//     console.log(dataToEdit.id);
+//     const selectedVehicle = { _id: new ObjectId(dataToEdit.id) }
+//     delete dataToEdit.id
+//     const operation = {
+//         $set: dataToEdit,
+//     }
+//     const dataBase = getDataBase();
+//     await dataBase.collection('vehicle')
+//         .findOneAndUpdate(
+//             selectedVehicle,
+//             operation,
+//             { returnOriginal: true },
+//             callback)
+// }
+
+const editOneVehicleParams = async (id, dataToEdit, callback) => {
+    const selectedVehicle = { _id: new ObjectId(id) }
     const operation = {
         $set: dataToEdit,
     }
@@ -30,8 +45,20 @@ const editOneVehicle = async (dataToEdit, callback) => {
         .findOneAndUpdate(
             selectedVehicle,
             operation,
-            { upsert: true, returnOriginal: true },
+            { returnOriginal: true },
             callback)
 }
 
-export { getAllVehicles, createOneVehicle, editOneVehicle }
+// const deleteOneVehicle = async (dataToDelete, callback) => {
+//     const selectedVehicle = { _id: new ObjectId(dataToDelete.id) }
+//     const dataBase = getDataBase();
+//     await dataBase.collection('vehicle').deleteOne(selectedVehicle, callback)
+// }
+
+const deleteOneVehicleParams = async (id, callback) => {
+    const selectedVehicle = { _id: new ObjectId(id) }
+    const dataBase = getDataBase();
+    await dataBase.collection('vehicle').deleteOne(selectedVehicle, callback)
+}
+
+export { getAllVehicles, createOneVehicle, editOneVehicleParams, deleteOneVehicleParams }

@@ -1,12 +1,10 @@
 //traditional method
 //const express = require('express');
-
 import express from 'express';
 import cors from 'cors'
 import dotenv from 'dotenv'
 import { dbConnection } from './db/db.js';
 import vehicleRoutes from './views/vehicles/routes.js';
-
 
 dotenv.config({ path: './.env' })
 
