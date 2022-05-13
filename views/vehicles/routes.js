@@ -26,7 +26,7 @@ const genericCallBack = (res) => (err, result) => {
 */
 
 
-vehicleRoutes.route("/vehicles").get((req, res) => {
+vehicleRoutes.route("/vehicles/").get((req, res) => {
     const responseGetAll = (err, result) => {
         if (err) {
             console.error(err);
@@ -38,27 +38,27 @@ vehicleRoutes.route("/vehicles").get((req, res) => {
     getAllVehicles(responseGetAll)
 })
 
-vehicleRoutes.route("/vehicles").post((req, res) => {
+vehicleRoutes.route("/vehicles/").post((req, res) => {
     createOneVehicle(req.body, genericCallBack(res))
 })
 
 //id in the body
-// vehicleRoutes.route("/vehicle/edit").patch((req, res) => {
+// vehicleRoutes.route("/vehicle/edit/").patch((req, res) => {
 //     editOneVehicle(req.body, genericCallBack(res))
 // })
 
 /*id in the url*/
-vehicleRoutes.route("/vehicles/:id").patch((req, res) => {
+vehicleRoutes.route("/vehicles/:id/").patch((req, res) => {
     editOneVehicleParams(req.params.id, req.body, genericCallBack(res))
 })
 
 //id in the body
-// vehicleRoutes.route("/vehicle/delete").delete((req, res) => {
+// vehicleRoutes.route("/vehicle/delete/").delete((req, res) => {
 //     deleteOneVehicle(req.body, genericCallBack(res))
 // })
 
 /*id in the url*/
-vehicleRoutes.route("/vehicles/:id").delete((req, res) => {
+vehicleRoutes.route("/vehicles/:id/").delete((req, res) => {
     deleteOneVehicleParams(req.params.id, genericCallBack(res))
 })
 
